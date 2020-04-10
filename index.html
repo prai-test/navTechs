@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome</title>
+
+    <script src="TemplateData/UnityProgress.js"></script>
+    <script src="Build1/UnityLoader.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-analytics.js"></script>
+
+    <script>
+      var entry;
+      var unityInstance
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyCHosedsYmLQUfGwQsHXdLK47BJd6t5j_c",
+        authDomain: "qftest-8087f.firebaseapp.com",
+        databaseURL: "https://qftest-8087f.firebaseio.com",
+        projectId: "qftest-8087f",
+        storageBucket: "qftest-8087f.appspot.com",
+        messagingSenderId: "868945605588",
+        appId: "1:868945605588:web:385a92b105536377609c41",
+        measurementId: "G-7V17NX3CG6"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+    </script>
+
+        <!-- update the version number as needed
+    <script defer src="/__/firebase/7.13.0/firebase-app.js"></script> -->
+    <script src="/__/firebase/7.13.0/firebase-database.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/7.13.0/firebase-auth.js"></script>
+    <script defer src="/__/firebase/7.13.0/firebase-database.js"></script>
+    <script defer src="/__/firebase/7.13.0/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/7.13.0/firebase-storage.js"></script>
+
+    <!-- initialize the SDK after all desired features are loaded 
+    <script defer src="/__/firebase/init.js"></script>-->
+    <style media="screen">
+      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
+      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
+      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
+      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
+      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
+      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
+      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
+      @media (max-width: 600px) {
+        body, #message { margin-top: 0; background: white; box-shadow: none; }
+        body { border-top: 16px solid #ffa100; }
+      }
+      .center {
+        margin: auto;
+        text-align: center;
+      }
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+      }
+
+      td, th {
+        border: 1px solid #dddddd;
+        text-align: center;
+        padding: 8px;
+      }
+    </style>
+
+    <script>
+      function validateForm() {
+
+        var combination = document.forms["myForm"]["combination"].value;
+
+
+        var QF1 = document.forms["myForm"]["QF1out"].value;
+        var QF2 = document.forms["myForm"]["QF2out"].value;
+        var QF3 = document.forms["myForm"]["QF3out"].value;
+        var QF4 = document.forms["myForm"]["QF4out"].value;
+        var tot = +QF1 + +QF2 + +QF3 + +QF4;
+
+        if (tot != 10) {
+          alert("Sum must be 10");
+          return false;
+        }
+        var fname = document.forms["myForm"]["fname"].value;
+        var lname = document.forms["myForm"]["lname"].value;
+        var c1_2 = document.forms["myForm"]["c1_2"].value;
+        var c1_2w = document.forms["myForm"]["c1_2w"].value;
+        var c1_3 = document.forms["myForm"]["c1_3"].value;
+        var c1_3w = document.forms["myForm"]["c1_3w"].value;
+        var c1_4 = document.forms["myForm"]["c1_4"].value;
+        var c1_4w = document.forms["myForm"]["c1_4w"].value;
+        var c2_3 = document.forms["myForm"]["c2_3"].value;
+        var c2_3w = document.forms["myForm"]["c2_3w"].value;
+        var c2_4 = document.forms["myForm"]["c2_4"].value;
+        var c2_4w = document.forms["myForm"]["c2_4w"].value;
+        var c3_4 = document.forms["myForm"]["c3_4"].value;
+        var c3_4w = document.forms["myForm"]["c3_4w"].value;
+
+        if (fname == "") {
+          alert("You must enter your first name and name. If you really don't want too, enter a sequence of random 8 letters");
+          return false;
+        }
+        if (lname == "") {
+          alert("You must enter your first name and name. If you really don't want too, enter a sequence of random 8 letters");
+          return false;
+        }
+
+        if (c1_2w == 0 && c1_3w ==0 && c1_4w ==0 && c2_3w == 0 && c2_4w ==0 && c3_4w ==0) {
+          alert("You must fill this comparison table");
+          return false;
+        }
+
+        entry = fname+lname+combination;
+        firebase.database().ref(entry+'/').set({
+          QF1: QF1,
+          QF2: QF2,
+          QF3: QF3,
+          QF4: QF4,
+          c1_2:c1_2,
+          c1_2w:c1_2w,
+          c1_3:c1_3,
+          c1_3w:c1_3w,
+          c1_4:c1_4,
+          c1_4w:c1_4w,
+          c2_3:c2_3,
+          c2_3w:c2_3w,
+          c2_4:c2_4,
+          c2_4w:c2_4w,
+          c3_4:c3_4,
+          c3_4w:c3_4w,
+        });
+        unityInstance = UnityLoader.instantiate("unityContainer", "Build"+combination+"/public.json", {onProgress: UnityProgress});
+         document.getElementById("questionnaire").style.display = 'none';
+        //
+        //window.location.href="game.html";
+      }
+      
+    </script>
+    <script>
+      function instanceLoadSu() {
+        setTimeout(function () {
+            unityInstance.SendMessage('JavascriptHook', 'setUsername', entry+"_m");
+        }, 2500);
+        
+      }
+      //var unityInstance = UnityLoader.instantiate("unityContainer", "Build/public.json", {onProgress: UnityProgress});
+    </script>
+
+  </head>
+  <body>
+    <!--<form name="subject" action="/action_page.php" method="get">
+      
+      <input type="button" onclick="formSubmit()" value="Send form data!">
+  </form>-->
+    <!--     <div id="message">
+      <h2>Welcome</h2>
+      <h1>Firebase Hosting Setup Complete</h1>
+      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
+      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+    </div> -->
+    <h1 class="center"> Hazard identification from the worksite planned design</h1>
+    </br></br>
+    <h2>A virtual experience for hazard identification</h2>
+  <h3>Purpose of the study</h3>
+  This experiment aims to evaluate some locomotion techniques for the specific task of hazard identification. </br>You would have <b>to repeat the experiment for 2 techniques, ONLY 1 time for each technique</b>. Repeat the experiment ONLY in case of a severe bug, such as an infinite move of the player.
+
+  <h3>Protocol</h3>
+  You would have to follow the following steps, 1 time for each technique:
+  <ol>
+    <li>Read the OSHA information about fall and struck-by hazards</li>
+    <li>Fill the questionnaire</li>
+    <li>Practise the technique of navigation, by moving around the building</li>
+    <li>Search the workers that are in an hazardous situation in the virtual worksite</li>
+      <ul>
+        <li>The central building is the one which is currently in construction during the worksite. The buildings around it are already finished.</li>
+        <li>The experiment starts in a corner of the central building. Move around the central building, along its 4 facades.</li>
+        <li><b>You must check the 4 facades, and come back to the starting point.</b></li>
+        <li>When you have came back, <b style="color:#ff3300">click on the red parallelepiped to end the game. Please, don't forget it</b> otherwise your completion task time will be false.</li>
+      </ul>
+  </ol>
+
+  <h3>Hazards commands</h3>
+  <ul>
+    <li>To signal a hazard, press the <b style="color:#808000">H Key</b> of your keyboard, and release. The virtual hand should become <b style="color:#808000">yellow</b>.</li>
+    <li>Then, if you move the mouse on a worker, it will make it becoming orange or pink. </li>
+    <li>Finally, you must click ONCE on the worker if you want to signal it as in an hazardous situation. If you click again, it erase your action.</li>
+    <li>You can click on several workers before quitting the Hazard Mode by pressing the H key again</li>
+  </ul>
+
+  <h3>Orientation command</h3>
+  To orient your point of view (always first person), you must RIGHT click.
+
+  <h3>Navigation commands</h3>
+    When you are not in the hazard mode, you are in the navigation mode. The virtual hand can be purple or green.
+    </br></br>
+    <b style="color:#800080">Purple</b> means that you <b style="color:#800080">can NOT click here</b>  to make a move.</br>
+    <b style="color:#008000">Green</b> means that you <b style="color:#008000">can click here</b> to make a move.
+
+    Two techniques are possible, but ONLY one is available at the same time.
+
+    Both rely on the same actions, but on different surfaces:
+    <ul>
+      <li> Technique 1: you must LEFT click <b>on the floor</b> and then you move to this point automatically.</li>
+      <li> Technique 2: you must LEFT click <b>on the little map</b> and then you move to this point automatically.</li>
+    </ul>
+    The only common place for clicking for a move between the two techniques is the <b style="color:#ff3300">red parallelepiped</b>. You always have to LEFT click on it to end the game, no matters the technique.
+
+    
+    
+      <h3>Pre-experiment questionnaire</h3>
+      <p>By entering data in the following questionnaire, you accept to participate to this experiment and consent to transmit these data. Personal data are only necessary to distinguish the results between each participant. They will not be published in any writing or oral communication, If you do not accept to write your name but you want to participate, please enter a random combination of letters as name and first.</p>
+    <form name="myForm">
+      <label for="fname">First name:</label>
+      <input type="text" id="fname" name="fname"><br><br>
+      <label for="lname">Last name:</label>
+      <input type="text" id="lname" name="lname"><br><br>
+      <div id="questionnaire">
+      <p>Please give to each criterion a weight from 0 to 10 according to the importance of this criteria <b>for navigating</b> WHEN <b>searching hazards in a worksite</b></p>
+      <p>The total sum must be 10.</p>
+      <div>0<input type="range" name="QF1" id="QF1" value="5" min="0" max="10" oninput="QF1out.value = QF1.value">10 &emsp; Rapidity: <output name="QF1out" id="QF1out">5</output></div> 
+      <br/><br/>
+          <div>0<input type="range" name="QF2" id="QF2" value="5" min="0" max="10" oninput="QF2out.value = QF2.value">10 &emsp; Information Gathering ability (IGA): <output name="QF2out" id="QF2out">5</output></div>
+      <br/><br/>
+          <div>0<input type="range" name="QF3" id="QF3" value="5" min="0" max="10" oninput="QF3out.value = QF3.value">10 &emsp; Situation awareness (SA): <output name="QF3out" id="QF3out">5</output></div>
+      <br/><br/>
+          <div>0<input type="range" name="QF4" id="QF4" value="5" min="0" max="10" oninput="QF4out.value = QF4.value">10 &emsp; Usability: <output name="QF4out" id="QF4out">5</output></div>
+      <br/><br/>
+      <p>The objective of this table is also to attribute weights to criteria according to their importance <b>for navigating</b> for THIS task of hazard identification</p>
+      <p>This time the criteria must be compared by pair. First, choose which criterion is more important in a pair, select it. Then, put 1 if this criteria is "moderately" more important, or 2 if it is much more important. If you put 0, it means that, for you, the two criteria have the same importance.
+      <br>Example: : rapidity VS usability => I think that rapidity is more important, I select it. I think it is much more important than usability, so I choose 2.
+      <table>
+        <tr>
+          <th>x</th>
+          <th>Rapidity</th>
+          <th>Information Gathering ability (IGA)</th>
+          <th>Situation awareness (SA)</th>
+          <th>Usability</th>
+        </tr>
+        <tr>
+          <td>
+          Rapidity 
+          </td>
+          <td>x</td>
+          <td>
+            <select id="c1_2">
+                <option value="QF1">Rapidity</option>
+                <option value="QF2">IGA</option>
+            </select>
+            <select id="c1_2w">
+              <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select>
+          </td>
+          <td>
+            <select id="c1_3">
+                <option value="QF1">Rapidity</option>
+                <option value="QF3">SA</option>
+            </select>
+            <select id="c1_3w">
+              <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select>
+          </td>
+          <td>
+            <select id="c1_4">
+                <option value="QF1">Rapidity</option>
+                <option value="QF4">Usability</option>
+            </select>
+            <select id="c1_4w">
+              <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+          Information Gathering ability (IGA) 
+          </td>
+          <td>x</td>
+          <td>x</td>
+          <td>
+            <select id="c2_3">
+                <option value="QF2">IGA</option>
+                <option value="QF3">SA</option>
+            </select>
+            <select id="c2_3w">
+              <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select>
+          </td>
+          <td>
+            <select id="c2_4">
+                <option value="QF2">IGA</option>
+                <option value="QF4">Usability</option>
+            </select>
+            <select id="c2_4w">
+              <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+          Situation awareness (SA) 
+          </td>
+          <td>x</td>
+          <td>x</td>
+          <td>x</td>
+          <td>
+            <select id="c3_4">
+                <option value="QF3">SA</option>
+                <option value="QF4">Usability</option>
+            </select>
+            <select id="c3_4w">
+              <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+          Usability 
+          </td>
+          <td>x</td>
+          <td>x</td>
+          <td>x
+          </td>
+          <td>x
+          </td>
+        </tr>
+      </table>
+      </div>
+      </br></br>
+      Combination (for this pre-expe) 0A and 0B to try the 2 interactions<select name="combination" id="combination">
+        <option value="0A">0A</option>
+        <option value="0B">0B</option>
+            <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+          </select>
+      </br></br>
+      <input type="button" onclick="validateForm()" value="Send form and load app!">
+    </form>
+  
+    <div class="webgl-content">
+      <div id="unityContainer"></div>
+    </div>
+
+    <p id="load">Firebase SDK Loading&hellip;</p>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+        // // The Firebase SDK is initialized and available here!
+        //
+        // firebase.auth().onAuthStateChanged(user => { });
+        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
+        // firebase.messaging().requestPermission().then(() => { });
+        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
+        //
+        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+        try {
+          let app = firebase.app();
+          let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
+          document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
+        }
+        catch (e) {
+          console.error(e);
+          document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
+        }
+      });
+    </script>
+  </body>
+</html>
